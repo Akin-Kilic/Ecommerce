@@ -47,7 +47,7 @@ func TokenGenerator(email string, firstname string, lastname string, uid string)
 	}
 	refreshtoken, err := jwt.NewWithClaims(jwt.SigningMethodHS256, refreshclaims).SignedString([]byte(SECRET_KEY))
 	if err != nil {
-		log.Panicln(err)
+		log.Println(err)
 		return
 	}
 	return token, refreshtoken, err
@@ -80,7 +80,7 @@ func UpdateAllTokens(signedtoken string, signedrefreshtoken string, userid strin
 	updateobj = append(updateobj, bson.E{Key: "token", Value: signedtoken})
 	updateobj = append(updateobj, bson.E{Key: "refresh_token", Value: signedrefreshtoken})
 	updated_at, _ := time.Parse(time.RFC3339, time.Now().Format(time.RFC3339))
-	updateobj = append(updateobj, bson.E{Key: "updatedat", Value: updated_at})
+	updateobj = append(updateobj, bson.E{Key: "updatedate", Value: updated_at})
 	upsert := true
 	filter := bson.M{"user_id": userid}
 	opt := options.UpdateOptions{
